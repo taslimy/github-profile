@@ -2,20 +2,36 @@ import React from "react";
 
 const GitHub = props => {
   console.log(props);
+
   return (
     <>
       <h2>User info</h2>
-      {props.user.username && <span> {props.user.username}</span>}
+      <div></div>
+      {props.user.fullName && <span> {props.user.fullName}</span>}
+
       {props.user.avatar_url && <img src={props.user.avatar_url} />}
       {props.user.html_url && (
-        <a href={props.user.html_url}>
-          Link
-        </a>
+        <a href={props.user.html_url}>{props.user.username}</a>
       )}
-      {props.user.name && <span> {props.user.name}</span>}
       {props.user.bio && <span> {props.user.bio} </span>}
       {props.user.location && <span> {props.user.location} </span>}
       {props.user.error && <span>{props.user.error}</span>}
+
+      {props.getUserInfo &&
+        props.getUserInfo.map((x, i) => {
+          return <p key={i}>{x.name}</p>;
+        })}
+
+      {props.getUserRepo &&
+        Object.keys(props.getUserRepo).map(key => (
+          <>
+            <span>
+              <p>{props.getUserRepo[key].name}</p>
+              <p>{props.getUserRepo[key].language}</p>
+              {console.log(props.getUserRepo[key].name)}
+            </span>
+          </>
+        ))}
     </>
   );
 };

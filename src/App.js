@@ -5,6 +5,7 @@ import { removeSpaces } from "./util/index";
 
 import Form from "./component/Form";
 import GitHub from "./component/GitHub";
+import Repo from "./component/Repo";
 
 import "./App.css";
 
@@ -14,7 +15,7 @@ class App extends React.Component {
 
     this.state = {
       user: {},
-      getuserRepo: {}
+      getUserRepo: {}
     };
   }
 
@@ -30,7 +31,7 @@ class App extends React.Component {
             username: res.data.login,
             avatar_url: res.data.avatar_url,
             html_url: res.data.html_url,
-            name: res.data.name,
+            fullName: res.data.name,
             bio: res.data.bio,
             location: res.data.location,
             public_repos: res.data.public_repos,
@@ -48,7 +49,7 @@ class App extends React.Component {
       .then(res => {
         console.log(res.data);
         this.setState({
-          userRepo: {
+          getUserRepo: {
             ...res.data
           }
         });
@@ -59,12 +60,13 @@ class App extends React.Component {
   };
 
   render() {
-    const { user } = this.state;
+    const { user, getUserRepo } = this.state;
     return (
       <div className="App">
         <h1>Search GitHub name homie</h1>
         <Form loadUser={this.getUserInfo} />
-        <GitHub user={user} />
+        <GitHub user={user} getUserRepo={getUserRepo} />
+        {/* <Repo getUserRepo={getUserRepo} key={Math.random() * 9999}/> */}
       </div>
     );
   }
