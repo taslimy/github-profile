@@ -16,8 +16,10 @@ class App extends React.Component {
   }
 
   getUser = e => {
-    const name = e.target.name.value;
-
+    function removeSpaces(val) {
+      return val.replace(/\s/g, "");
+    }
+    const name = removeSpaces(e.target.name.value);
     e.preventDefault();
 
     axios
