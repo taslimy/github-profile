@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import { removeSpaces } from "./util/index";
+
 import Form from "./component/Form";
 import GitHub from "./component/GitHub";
 
@@ -11,14 +13,12 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      user: {}
+      user: {},
+      getuserRepo: {}
     };
   }
 
-  getUser = e => {
-    function removeSpaces(val) {
-      return val.replace(/\s/g, "");
-    }
+  getUserInfo = e => {
     const name = removeSpaces(e.target.name.value);
     e.preventDefault();
 
@@ -32,11 +32,27 @@ class App extends React.Component {
             html_url: res.data.html_url,
             name: res.data.name,
             bio: res.data.bio,
-            location: res.data.location
+            location: res.data.location,
+            public_repos: res.data.public_repos,
+            followers: res.data.followers,
+            following: res.data.following
           }
         });
       })
+      .catch(err => {
+        console.log(err);
+      });
 
+    axios
+      .get(`https://api.github.com/users/${name}/repos?per_page=100`)
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          userRepo: {
+            ...res.data
+          }
+        });
+      })
       .catch(err => {
         console.log(err);
       });
@@ -47,7 +63,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Search GitHub name homie</h1>
-        <Form loadUser={this.getUser} />
+        <Form loadUser={this.getUserInfo} />
         <GitHub user={user} />
       </div>
     );
