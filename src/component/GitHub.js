@@ -17,15 +17,10 @@ const GitHub = props => {
       {props.user.location && <span> {props.user.location} </span>}
       {props.user.error && <span>{props.user.error}</span>}
 
-      {props.getUserInfo &&
-        props.getUserInfo.map((x, i) => {
-          return <p key={i}>{x.name}</p>;
-        })}
-
       {props.getUserRepo &&
         Object.keys(props.getUserRepo).map(key => (
           <>
-            <span>
+            <span key={props.getUserRepo[key].id}>
               <p>{props.getUserRepo[key].name}</p>
               <p>{props.getUserRepo[key].language}</p>
               {console.log(props.getUserRepo[key].name)}
